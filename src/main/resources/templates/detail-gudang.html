@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Gudang</title>
+
+    <style>
+       .thead {
+            background-color: rgb(53, 53, 53);
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container">
+    <div class="text-center pt-5 mb-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h2>Detail Gudang</h2>
+                <a class="btn btn-primary btn-md mx-2 d-flex align-items-center" th:href="@{/gudang/{idGudang}/restock-barang(idGudang=${gudang.id})}">
+                    <i class="bi bi-plus"></i>
+                    <span class="ms-1">Restock Barang</span>
+                </a>              
+            </div>
+            
+            <div class="card-body" style="text-align: left;">
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Nama Gudang</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: [[${gudang.nama}]]</p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Alamat Gudang</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: [[${gudang.alamat_gudang}]]</p>
+                    </div>
+                </div>
+
+                <div class="text-left pt-3 mb-3">
+                    <h5>Daftar barang tersedia</h5>
+                </div>
+            
+                <table id="dataTables" class="table table-bordered">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Merk</th>
+                            <th>Stok</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+            
+                    <!-- <tbody>
+                        <tr th:each="barang, nomor: ${listBarang}">
+                            <td th:text="${nomor.index + 1}"></td>
+                            
+                            <td><a href="@{/barang/{id}(id=${barang.id})}" th:text="${barang.sku}"></a></td>
+            
+                            <td th:text="${barang.merk}"></td>
+
+                            <td th:text="${barang.stok}"></td>
+
+                            <td th:text="'Rp' + ${barang.harga}"></td>
+                        </tr>
+                    </tbody> -->
+
+                    <tbody>
+                        <tr th:each="gudangBarang, nomor: ${gudang.listGudangBarang}">
+                            <td>
+                                <a th:href="@{'/barang/' + ${gudangBarang.barang.sku}}">
+                                    <span th:text="${gudangBarang.barang.sku}"></span>
+                                </a>
+                            </td>
+                            <td th:text="${gudangBarang.barang.merk}"></td>
+                            <td th:text="${gudangBarang.stok}"></td>
+                            <td th:text="Rp' + ${gudangBarang.barang.harga_barang}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>   
+            
+            <div class="text-center m-3">
+                <a type="button" class="btn btn-secondary m-2 mb-3" href="/gudang">Kembali</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Daftar Gudang</title>
+
+    <style>
+        .thead {
+            background-color: rgb(53, 53, 53);
+            color: white;
+        }
+
+        td, .thead {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container">
+    <div class="text-center pt-5 mb-5">
+        <h2>Daftar Gudang</h2>
+    </div>
+
+    <table id="dataTables" class="table table-bordered">
+        <thead class="thead">
+            <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Alamat Gudang</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="gudang, nomor: ${listGudang}">
+                <td th:text="${nomor.index + 1}"></td>
+                
+                <td th:text="${gudang.nama}"></td>
+
+                <td th:text="${gudang.alamat_gudang}"></td>
+
+                <td>
+                    <a class="btn btn-md btn-secondary mx-2" th:href="@{/gudang/{id}(id=${gudang.id})}">Detail</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>

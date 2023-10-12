@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <title>Cancel Permintaan</title>
+
+  <style>
+    img{
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .container {
+        margin-top: 8%;
+    }
+  </style>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container">
+        <div class="card m-4 p-4">
+            <div class="card-body">
+                <div class="images d-flex justify-content-center align-items-center">
+                    <img src="/images/check.png">
+                </div>
+
+                <div class="text-center">
+                    <h3>Permintaan pengiriman dengan nomor pengiriman [] berhasil dihapus.</h3>
+                </div>
+
+                <div class="text-center m-3">
+                    <a type="button" class="btn btn-md btn-primary" href="/">Kembali ke beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

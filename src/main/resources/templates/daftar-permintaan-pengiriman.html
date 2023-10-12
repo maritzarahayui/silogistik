@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Daftar Permintaan Pengiriman</title>
+
+    <style>
+        .thead {
+            background-color: rgb(53, 53, 53);
+            color: white;
+        }
+
+        td, .thead {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container">
+    <div class="text-center pt-5">
+        <h2>Daftar Permintaan Pengiriman</h2>
+    </div>
+
+    <div class="text-center pt-3 mb-5">
+        <a class="btn btn-primary btn-md mx-2" th:href="@{/}">
+            <i class="bi bi-plus"></i>
+            <span class="ms-1">Tambah Permintaan Pengiriman</span>
+        </a> 
+    </div>
+
+    <table id="dataTables" class="table table-bordered">
+        <thead class="thead">
+            <tr>
+                <th>#</th>
+                <th>Waktu Permintaan</th>
+                <th>Nomor Pengiriman</th>
+                <th>Nama Penerima</th>
+                <th>Alamat Penerima</th>
+                <th>Tanggal Pengiriman</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+                
+                <td>18-09-2023, 18:52</td>
+
+                <td>REQXX01AZSDA</td>
+
+                <td>Andreas Ilham</td>
+
+                <td>Komp. Permata Biru Blok A2</td>
+
+                <td>25-09-2023</td>
+
+                <td>
+                    <a class="btn btn-md btn-secondary mx-2" th:href="@{/}">Detail</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>

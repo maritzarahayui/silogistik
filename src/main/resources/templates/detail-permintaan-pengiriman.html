@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Permintaan Pengiriman</title>
+
+    <style>
+       .thead {
+            background-color: rgb(53, 53, 53);
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container">
+    <div class="text-center pt-5 mb-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h2>Detail Permintaan Pengiriman</h2>
+                <a class="btn btn-danger btn-md mx-2 d-flex align-items-center" th:href="@{/}">
+                    <span class="ms-1">Cancel Permintaan</span>
+                </a>              
+            </div>
+            
+            <div class="card-body" style="text-align: left;">
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>No. Permintaan Pengiriman</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: REQXX01AZSDA</p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Waktu Permintaan</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: 18-09-2023, 18:52</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Karyawan Bertugas</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: Alfia Zahra</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Waktu Pengiriman</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: 18-09-2023</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Nama Penerima</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: Andreas Ilham</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Alamat Penerima</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: Komp. Permata Biru Blok A2</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Jenis Layanan</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: Same Day</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Biaya Pengiriman</p>
+                    </div>
+                    <div class="col-6">
+                        <p>: Rp30000</p>
+                    </div>
+                </div>
+
+                <div class="text-left pt-3 mb-3">
+                    <h5>Daftar barang dipesan</h5>
+                </div>
+            
+                <table id="dataTables" class="table table-bordered">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Merk</th>
+                            <th>Kuantitas Pesanan</th>
+                            <th>Total Harga</th>
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            
+                            <td><a href="/">ELEC001</a></td>
+            
+                            <td>iPhone 15 Pro Max 1TB</td>
+
+                            <td>1</td>
+
+                            <td>Rp28000000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>   
+            
+            <div class="text-center m-3">
+                <a type="button" class="btn btn-secondary m-2 mb-3" href="/">Kembali</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

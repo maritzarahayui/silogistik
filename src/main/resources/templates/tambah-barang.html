@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Tambah Barang</title>
+
+    <style>
+       .thead {
+            background-color: rgb(53, 53, 53);
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .add-button {
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container">
+    <div class="text-center pt-5 mb-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Tambah Barang</h2>             
+            </div>
+            
+            <form th:action="@{/barang/tambah}" th:object="${barangDTO}" method="POST">
+                <div class="card-body" style="text-align: left;">
+                    <div class="mb-3">
+                        <label for="merk" class="form-label">Merk Barang :</label>
+                        <input type="text" id="merk" name="merk" class="form-control" />
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="tipe_barang" class="form-label">Tipe Barang :</label>
+                        <select name="tipe_barang" class="form-select">
+                            <option th:each="entry : ${listTipeBarang}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                        </select>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="harga_barang" class="form-label">Harga :</label>
+                        <input type="text" id="harga_barang" name="harga_barang" class="form-control" />
+                    </div>
+                </div>
+                
+                <div class="text-center action-buttons">
+                    <a type="button" class="btn btn-danger m-2 mb-3" href="/">Batal</a>
+                    <button type="submit" class="btn btn-primary m-2 mb-3">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

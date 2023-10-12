@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Ubah Barang</title>
+
+    <style>
+       .thead {
+            background-color: rgb(53, 53, 53);
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .add-button {
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container">
+    <div class="text-center pt-5 mb-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Ubah Barang</h2>             
+            </div>
+            
+            <div class="card-body" style="text-align: left;">
+                <form th:object="${barang}" th:action="@{'/barang/' + ${sku} + '/ubah'}" method="post">
+
+                    <input class="form-control" type="hidden" th:field="*{sku}" />
+
+                    <div class="mb-3">
+                        <label for="sku" class="form-label">SKU :</label>
+                        <input type="text" id="sku" class="form-control" placeholder="SKU" th:field="*{sku}" disabled="disabled" />
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="merk" class="form-label">Merk Barang :</label>
+                        <input type="text" id="merk" class="form-control" placeholder="Merk barang" th:field="*{merk}"/>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="tipeBarang" class="form-label">Tipe Barang:</label>
+                        <select id="tipeBarang" name="tipeBarang" class="form-select" th:field="*{tipe_barang}" disabled="disabled">
+                            <option th:each="entry : ${listTipeBarang}"
+                                    th:value="${entry.key}"
+                                    th:text="${entry.value}"
+                                    th:selected="${entry.key == barang.tipe_barang}"></option>
+                        </select>
+                    </div>                    
+                    
+                    <div class="mb-3">
+                        <label for="harga" class="form-label">Harga :</label>
+                        <input type="text" id="harga" class="form-control" placeholder="Harga" th:field="*{harga_barang}" />
+                    </div>
+                    
+                    <div class="text-center action-buttons">
+                        <a class="btn btn-outline-primary m-2 mb-3" th:href="@{'/barang/' + ${barang.sku}}">Batal</a>
+                        <button type="submit" class="btn btn-primary m-2 mb-3">Simpan</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
