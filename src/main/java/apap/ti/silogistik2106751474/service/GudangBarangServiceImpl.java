@@ -48,4 +48,5 @@ public class GudangBarangServiceImpl implements GudangBarangService {
         }
         return gudbar;
     }
+
 }

@@ -4,10 +4,7 @@ import apap.ti.silogistik2106751474.dto.BarangMapper;
 import apap.ti.silogistik2106751474.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106751474.dto.request.UpdateBarangRequestDTO;
 import apap.ti.silogistik2106751474.model.*;
-import apap.ti.silogistik2106751474.repository.BarangDb;
-import apap.ti.silogistik2106751474.repository.GudangDb;
-import apap.ti.silogistik2106751474.repository.KaryawanDb;
-import apap.ti.silogistik2106751474.repository.PermintaanPengirimanDb;
+import apap.ti.silogistik2106751474.repository.*;
 import apap.ti.silogistik2106751474.service.BarangService;
 import apap.ti.silogistik2106751474.service.GudangBarangService;
 import apap.ti.silogistik2106751474.service.GudangService;
@@ -22,9 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class BarangController {
@@ -33,6 +30,9 @@ public class BarangController {
 
     @Autowired
     private BarangDb barangDb;
+
+    @Autowired
+    private GudangBarangDb gudangBarangDb;
 
     @Autowired
     private PermintaanPengirimanDb permintaanPengirimanDb;
@@ -76,7 +76,6 @@ public class BarangController {
     @GetMapping("/barang")
     public String daftarBarang(Model model) {
         List<Barang> listBarang = barangDb.findAll();
-
         model.addAttribute("listBarang", listBarang);
 
         return "daftar-barang";
@@ -115,17 +114,6 @@ public class BarangController {
         barang.setSku(sku);
         barangService.saveBarang(barang);
 
-        Gudang gudang = new Gudang();
-        gudang.setNama("");
-        gudang.setAlamat_gudang("");
-        gudangService.saveGudang(gudang);
-
-        GudangBarang gudangBarang = new GudangBarang();
-        gudangBarang.setStok(1);
-        gudangBarang.setBarang(barang);
-        gudangBarang.setGudang(gudang);
-        gudangBarangService.saveGudangBarang(gudangBarang);
-
         model.addAttribute("sku", barang.getSku());
         model.addAttribute("barangBaru", barang);
 
@@ -138,13 +126,37 @@ public class BarangController {
     @GetMapping("/barang/{sku}")
     public String detailBarang(@PathVariable String sku, Model model) {
         Barang barang = barangService.findBySku(sku);
+        model.addAttribute("barang", barang);
+
+        List<Barang> listBarang = barangService.getAllBarang();
+        model.addAttribute("listBarang", listBarang);
 
         List<GudangBarang> listGudangBarang = gudangBarangService.findByBarang(barang);
-
-        model.addAttribute("barang", barang);
         model.addAttribute("listGudangBarang", listGudangBarang);
 
+        int id_barang = barang.getTipe_barang();
+        String tipe = barangService.listTipeBarang().get(id_barang);
+        model.addAttribute("tipe", tipe);
+
+        Map<String, Integer> totalStokGudang = new HashMap<>();
+        for (Barang brg : listBarang){
+            int total = totalStok(brg);
+            totalStokGudang.put(brg.getSku(), total);
+        }
+
+        model.addAttribute("totalStokGudang", totalStokGudang);
+
         return "detail-barang";
+    }
+
+    private int totalStok(Barang barang){
+        int total = 0;
+
+        for (GudangBarang gudbar : barang.getListGudangBarang()){
+            total += gudbar.getStok();
+        }
+
+        return total;
     }
 
     @GetMapping("/barang/{sku}/ubah")
@@ -188,20 +200,12 @@ public class BarangController {
         return "success-update-barang";
     }
 
-    @GetMapping("/permintaan-pengiriman")
-    public String daftarPermintaanPengiriman(Model model) {
-        return "daftar-permintaan-pengiriman";
-    }
-
     @GetMapping("/permintaan-pengiriman/idPermintaanPengiriman")
     public String detailPermintaanPengiriman(Model model) {
         return "detail-permintaan-pengiriman";
     }
 
-    @GetMapping("/permintaan-pengiriman/tambah")
-    public String buatPermintaanPengiriman(Model model) {
-        return "buat-permintaan-pengiriman";
-    }
+
 
     @GetMapping("/permintaan-pengiriman/idPermintaanPengiriman/cancel")
     public String cancelPermintaanPengiriman(Model model) {

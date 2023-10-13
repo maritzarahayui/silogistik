@@ -1,9 +1,12 @@
 package apap.ti.silogistik2106751474;
 
 import apap.ti.silogistik2106751474.dto.GudangMapper;
+import apap.ti.silogistik2106751474.dto.KaryawanMapper;
 import apap.ti.silogistik2106751474.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106751474.dto.request.CreateGudangRequestDTO;
+import apap.ti.silogistik2106751474.dto.request.CreateKaryawanRequestDTO;
 import apap.ti.silogistik2106751474.service.GudangService;
+import apap.ti.silogistik2106751474.service.KaryawanService;
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
@@ -22,7 +25,7 @@ public class Silogistik2106751474Application {
 
 	@Bean
 	@Transactional
-	CommandLineRunner run(GudangService gudangService, GudangMapper gudangMapper){
+	CommandLineRunner run(GudangService gudangService, GudangMapper gudangMapper, KaryawanService karyawanService, KaryawanMapper karyawanMapper){
 		return args -> {
 			var faker = new Faker(new Locale("in-ID"));
 
@@ -35,6 +38,15 @@ public class Silogistik2106751474Application {
 
 			var gudang = gudangMapper.createGudangRequestDTOToGudang(gudangDTO);
 			gudangService.saveGudang(gudang);
+
+			var karyawanDTO = new CreateKaryawanRequestDTO();
+
+			karyawanDTO.setJenis_kelamin(1);
+			karyawanDTO.setNama(faker.name().fullName());
+			karyawanDTO.setTanggal_lahir(faker.date().birthday(18, 55));
+
+			var karyawan = karyawanMapper.createKaryawanRequestDTOToKaryawan(karyawanDTO);
+			karyawanService.saveKaryawan(karyawan);
 		};
 	}
 

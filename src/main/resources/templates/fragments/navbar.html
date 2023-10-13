@@ -3,6 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- jQuery (pastikan jQuery diletakkan sebelum Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -37,7 +41,7 @@
             </li>
 
             <li class="nav-item">
-                <a th:class="${activePage == 'Beranda'} ? 'nav-link active text-white' : 'nav-link text-white'" th:href="@{/}">Permintaan Pengguna</a>
+                <a th:class="${activePage == 'Beranda'} ? 'nav-link active text-white' : 'nav-link text-white'" th:href="@{/permintaan-pengiriman}">Permintaan Pengiriman</a>
             </li>
 
             <li class="nav-item">

@@ -34,18 +34,13 @@ public class GudangServiceImpl implements GudangService {
         return null;
     }
 
-    @Override
-    public List<Gudang> searchGudangByBarang(String barang) {
-        return gudangDb.cariBarang(barang);
-    }
-
 //    @Override
-//    public Gudang updateGudang(Gudang gudang){
-//        Gudang gd = getGudangById(gudang.getId());
-//        if (gd != null){
-//            gd.setListGudangBarang(gd);
-//            gudangDb.save(gd);
-//        }
-//        return gd;
+//    public List<Gudang> searchGudangByBarang(String barang) {
+//        return gudangDb.findGudangByBarang(barang);
 //    }
+
+    @Override
+    public List<Gudang> findGudangByBarang(String barang) {
+        return gudangDb.findGudangByBarang(barang);
+    }
 }

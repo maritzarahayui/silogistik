@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UpdateBarangRequestDTO extends CreateBarangRequestDTO{
-    @Id
     private String sku;
 }

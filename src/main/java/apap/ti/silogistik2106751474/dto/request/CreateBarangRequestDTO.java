@@ -1,6 +1,6 @@
 package apap.ti.silogistik2106751474.dto.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Id;
 import lombok.*;
 
 @AllArgsConstructor

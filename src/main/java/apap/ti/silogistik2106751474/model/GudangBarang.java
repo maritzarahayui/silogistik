@@ -2,12 +2,9 @@ package apap.ti.silogistik2106751474.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -17,7 +14,6 @@ import java.math.BigInteger;
 public class GudangBarang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
     @NotNull

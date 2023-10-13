@@ -61,14 +61,14 @@
                     </div>
                 </div>
 
-                <div class="row" th:if="${gudangBarang != null}">
+                <div class="row">
                     <div class="col-6 d-flex align-items-center">
                         <p>Total Stok</p>
                     </div>
                     <div class="col-6">
-                        <p>: <span th:text="${gudangBarang.stok}"></span></p>
+                        <p>: <span th:text="${totalStokGudang[barang.sku]}"></span></p>
                     </div>
-                </div>
+                </div>                
 
                 <div class="row">
                     <div class="col-6 d-flex align-items-center">
@@ -94,21 +94,20 @@
                     </thead>
 
                     <tbody>
-                    <tr th:each="gudangBarang, nomor: ${gudangBarangList}">
-                        <td th:text="${nomor.index + 1}"></td>
-
-                        <td>
-                            <a th:if="${gudangBarang.gudang != null}"
-                               th:href="@{'/gudang/' + ${gudangBarang.gudang.id}}">
-                                <span th:text="${gudangBarang.gudang.nama}"></span>
-                            </a>
-                        </td>
-
-                        <td><span th:text="${gudangBarang.gudang.alamat_gudang}"></span></td>
-
-                        <td th:text="${gudangBarang.stok}"></td>
-                    </tr>
-                    </tbody>
+                        <tr th:each="gudangBarang, nomor: ${listGudangBarang}">
+                            <td th:text="${nomor.index + 1}"></td>
+                    
+                            <td>
+                                <a th:if="${gudangBarang.barang != null}" th:href="@{'/barang/' + ${gudangBarang.gudang.nama}}">
+                                    <span th:text="${gudangBarang.gudang.nama}"></span>
+                                </a>
+                            </td>
+                    
+                            <td th:text="${gudangBarang.barang != null ? gudangBarang.gudang.alamat_gudang : ''}"></td>
+                    
+                            <td><span th:if="${gudangBarang != null}" th:text="${gudangBarang.stok}"></span></td>
+                        </tr>
+                    </tbody>                    
                 </table>
             </div>
 

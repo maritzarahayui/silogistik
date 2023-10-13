@@ -66,31 +66,22 @@
                             <th>Harga</th>
                         </tr>
                     </thead>
-            
-                    <!-- <tbody>
-                        <tr th:each="barang, nomor: ${listBarang}">
-                            <td th:text="${nomor.index + 1}"></td>
-                            
-                            <td><a href="@{/barang/{id}(id=${barang.id})}" th:text="${barang.sku}"></a></td>
-            
-                            <td th:text="${barang.merk}"></td>
-
-                            <td th:text="${barang.stok}"></td>
-
-                            <td th:text="'Rp' + ${barang.harga}"></td>
-                        </tr>
-                    </tbody> -->
 
                     <tbody>
                         <tr th:each="gudangBarang, nomor: ${gudang.listGudangBarang}">
+                            <td th:text="${nomor.index + 1}"></td>
+
                             <td>
                                 <a th:href="@{'/barang/' + ${gudangBarang.barang.sku}}">
                                     <span th:text="${gudangBarang.barang.sku}"></span>
                                 </a>
                             </td>
+
                             <td th:text="${gudangBarang.barang.merk}"></td>
+
                             <td th:text="${gudangBarang.stok}"></td>
-                            <td th:text="Rp' + ${gudangBarang.barang.harga_barang}"></td>
+
+                            <td th:text="'Rp' + ${gudangBarang.barang.harga_barang}"></td>
                         </tr>
                     </tbody>
                 </table>

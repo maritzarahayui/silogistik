@@ -51,7 +51,7 @@
                 <td th:text="${barang.sku}"></td>
                 <td th:text="${barang.merk}"></td>
                 <td>
-                    <span th:each="gudangBarang : ${listGudangBarang}" th:if="${gudangBarang.barang.sku == barang.sku}" th:text="${gudangBarang.stok}"></span>
+                    <span th:each="gudangBarang : ${barang.listGudangBarang}" th:if="${gudangBarang.barang.sku == barang.sku}" th:text="${gudangBarang.stok}"></span>
                 </td>
                 <td th:text="${barang.harga_barang}"></td>
                 <td>

@@ -37,101 +37,108 @@
                 <h2>Buat Permintaan Pengiriman</h2>             
             </div>
             
-            <div class="card-body" style="text-align: left;">
-                <table class="table table-borderless">
-                    <tbody>
-                        <tr>
-                            <td class="d-flex align-items-center w-100">
-                                <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
-                                    <p class="mb-2">Karyawan Bertugas :</p>
-                                    <select name="searchField" class="form-select">
-                                        <option value="namaBarang">Pilih Karyawan</option>
-                                        <option value="namaBarang">cacaa</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="col-6 mb-3" style="width: 50%">
-                                    <p class="mb-2">Tanggal Pengiriman</p>
-                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" />
-                                </div>
-                            </td>
-                        </tr>
+            <form th:action="@{/permintaan-pengiriman/tambah}" th:object="${permintaan_pengiriman}" method="POST">
+                <div class="card-body" style="text-align: left;">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <!-- Karyawan Bertugas -->
+                            <tr>
+                                <td class="d-flex align-items-center w-100">
+                                    <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
+                                        <p class="mb-2">Karyawan Bertugas :</p>
+                                        <select name="karyawanId" class="form-select" th:field="*{karyawanId}">
+                                            <option value="">Pilih Karyawan</option>
+                                            <option th:each="karyawan : ${listKaryawan}" th:value="${karyawan.id}"
+                                                th:text="${karyawan.nama}"></option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-6 mb-3" style="width: 50%">
+                                        <p class="mb-2">Tanggal Pengiriman</p>
+                                        <input type="text" class="form-control" placeholder="dd/mm/yyyy" th:field="*{tanggalPengiriman}" />
+                                    </div>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="d-flex align-items-center w-100">
-                                <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
-                                    <p class="mb-2">Nama Penerima :</p>
-                                    <input type="text" class="form-control"/>
-                                </div>
-                                
-                                <div class="col-6 mb-3">
-                                    <p class="mb-2">Jenis Layanan :</p>
-                                    <select name="searchField" class="form-select">
-                                        <option value="namaBarang">Pilih Jenis Layanan</option>
-                                        <option value="namaBarang">1</option>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
+                            <!-- Nama Penerima -->
+                            <tr>
+                                <td class="d-flex align-items-center w-100">
+                                    <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
+                                        <p class="mb-2">Nama Penerima :</p>
+                                        <input type="text" class="form-control" th:field="*{namaPenerima}" />
+                                    </div>
+                                    
+                                    <!-- Jenis Layanan -->
+                                    <div class="col-6 mb-3">
+                                        <p class="mb-2">Jenis Layanan :</p>
+                                        <select name="jenisLayanan" class="form-select" th:field="*{jenisLayanan}">
+                                            <option value="">Pilih Jenis Layanan</option>
+                                            <option th:each="entry : ${listTipeBarang}" th:value="${entry.key}"
+                                                th:text="${entry.value}"></option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="d-flex align-items-center w-100">
-                                <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
-                                    <p class="mb-2">Alamat Penerima :</p>
-                                    <input type="text" class="form-control"/>
-                                </div>
-                                
-                                <div class="col-6 mb-3" style="width: 50%">
-                                    <p class="mb-2">Biaya Pengiriman :</p>
-                                    <input type="text" class="form-control"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-    
-                <div class="d-flex justify-content-between add-button">
-                    <span></span>
-                    <a class="btn btn-primary btn-md mx-2 d-flex align-items-center" th:href="@{/}">
-                        <i class="bi bi-plus"></i>
-                        <span class="ms-1">Tambah Barang</span>
-                    </a>              
+                            <!-- Alamat Penerima -->
+                            <tr>
+                                <td class="d-flex align-items-center w-100">
+                                    <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
+                                        <p class="mb-2">Alamat Penerima :</p>
+                                        <input type="text" class="form-control" th:field="*{alamatPenerima}" />
+                                    </div>
+                                    
+                                    <!-- Biaya Pengiriman -->
+                                    <div class="col-6 mb-3" style="width: 50%">
+                                        <p class="mb-2">Biaya Pengiriman :</p>
+                                        <input type="text" class="form-control" th:field="*{biayaPengiriman}" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+        
+                    <div class="d-flex justify-content-between add-button">
+                        <span></span>
+                        <a class="btn btn-primary btn-md mx-2 d-flex align-items-center" th:href="@{/}">
+                            <i class="bi bi-plus"></i>
+                            <span class="ms-1">Tambah Barang</span>
+                        </a>              
+                    </div>
+
+                    <table id="dataTables" class="table table-bordered">
+                        <thead class="thead">
+                            <tr>
+                                <th>#</th>
+                                <th>Barang</th>
+                                <th>Kuantitas</th>
+                            </tr>
+                        </thead>
+                
+                        <!-- Barang entries -->
+                        <tbody>
+                            <tr th:each="item, rowStat : *{listBarang}">
+                                <td th:text="${rowStat.index + 1}"></td>
+                                <td>
+                                    <select name="listBarang" class="form-select" th:field="*{listBarang[__${rowStat.index}__].id}">
+                                        <option value="">Pilih Barang</option>
+                                        <option th:each="barang : ${listBarang}" th:value="${barang.id}" th:text="${barang.nama}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="Jumlah Stok" th:field="*{listBarang[__${rowStat.index}__].stok}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>   
+                
+                <div class="text-center action-buttons">
+                    <a type="button" class="btn btn-danger m-2 mb-3" href="/">Batal</a>
+                    <button type="submit" class="btn btn-primary m-2 mb-3">Simpan</button>
                 </div>
-
-                <table id="dataTables" class="table table-bordered">
-                    <thead class="thead">
-                        <tr>
-                            <th>#</th>
-                            <th>Barang</th>
-                            <th>Kuantitas</th>
-                        </tr>
-                    </thead>
-            
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            
-                            <td>
-                                <select name="searchField" class="form-select">
-                                    <option value="namaBarang">Rare Beauty Liquid Blush</option>
-                                    <option value="namaBarang">Beyond The Vines-Black</option>
-                                </select>
-                            </td>
-
-                            <td>
-                                <input type="text" class="form-control" placeholder="Jumlah Stok" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>   
-            
-            <div class="text-center action-buttons">
-                <a type="button" class="btn btn-danger m-2 mb-3" href="/">Batal</a>
-                <a type="button" class="btn btn-primary m-2 mb-3" href="/">Simpan</a>
-            </div>
+            </form>
         </div>
-
     </div>
 </div>
 </body>

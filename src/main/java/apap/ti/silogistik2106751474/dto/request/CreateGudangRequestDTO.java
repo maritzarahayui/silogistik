@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class CreateGudangRequestDTO {
-    private Long id;
     private String nama;
     private String alamat_gudang;
     private List<GudangBarang> listGudangBarang;

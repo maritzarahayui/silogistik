@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface GudangDb extends JpaRepository<Gudang, Long> {
     @Query("SELECT g FROM Gudang g WHERE g.nama LIKE %:barang% OR g.alamat_gudang LIKE %:barang%")
-    List<Gudang> cariBarang(@Param("barang") String barang);
+    List<Gudang> findGudangByBarang(String barang);
 }

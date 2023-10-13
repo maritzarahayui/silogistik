@@ -68,8 +68,7 @@
             </div>
             
             <!-- <form th:action="@{'/gudang/' + ${idGudang} + '/restock-barang'}" th:object="${gudangDTO}" method="POST"> -->
-            
-            <form th:action="@{'/gudang/' + ${id} + '/restock-barang'}" th:with="id=${gudangDTO.id}" th:object="${gudangDTO}" method="POST">
+            <form th:action="@{/gudang/{idGudang}/restock-barang(idGudang=${gudangDTO.id})}" th:object="${gudangDTO}" method="POST">
 
                 <!-- <input class="form-control" type="hidden" th:field="*{id}" /> -->
                 <!-- <input class="form-control" type="hidden" th:field="*{nama}" />
@@ -93,6 +92,16 @@
                             <p>: <span th:text="${gudangDTO.alamat_gudang}"></span></p>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-6 d-flex align-items-center">
+                            <p>Alamat Gudang</p>
+                        </div>
+                        <div class="col-6">
+                            <p>: <span th:text="${gudangDTO.listGudangBarang}"></span></p>
+                        </div>
+                    </div>
+
 
                     <div class="d-flex justify-content-between add-button">
                         <span></span>
@@ -121,7 +130,7 @@
 
                                 <td>
                                     <div class="custom-select wide">
-                                        <select th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].barang}" class="form-control" id="barang">
+                                        <select th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].barang}" class="form-control">
                                             <option value="">Select a Product</option>
                                             <option th:each="barang : ${listBarang}" th:value="${barang.sku}">
                                                 <span th:text="${barang.merk}"></span>

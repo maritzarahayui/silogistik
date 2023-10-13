@@ -35,11 +35,11 @@
     <div class="text-center mt-3">
         <form th:action="@{/gudang/cari-barang}" method="get">
             <div class="input-group mb-3">
-                <select name="searchField" class="form-select">
-                    <option value="judul">Cari barang...</option>
-                    <option th:each="barang : ${listBarang}" th:value="${barang.nama}" th:text="${barang.nama}"></option>
+                <select name="sku" id="merk" class="form-select">
+                    <option value="">Cari barang...</option>
+                    <option th:each="barang : ${listBarang}" th:value="${barang.sku}" th:text="${barang.merk}"></option>
                 </select>
-
+        
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">Cari</button>
                 </div>

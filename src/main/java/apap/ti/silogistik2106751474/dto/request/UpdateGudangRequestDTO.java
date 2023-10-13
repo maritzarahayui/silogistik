@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UpdateGudangRequestDTO extends CreateGudangRequestDTO{
-    @Id
     private Long id;
 }

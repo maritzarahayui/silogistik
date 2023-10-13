@@ -27,11 +27,11 @@
     </div>
 
     <div class="text-center pt-3 mb-5">
-        <a class="btn btn-primary btn-md mx-2" th:href="@{/}">
+        <a class="btn btn-primary btn-md mx-2" th:href="@{/permintaan-pengiriman/tambah}">
             <i class="bi bi-plus"></i>
             <span class="ms-1">Tambah Permintaan Pengiriman</span>
         </a> 
-    </div>
+    </div>    
 
     <table id="dataTables" class="table table-bordered">
         <thead class="thead">
@@ -48,21 +48,17 @@
 
         <tbody>
             <tr>
-                <td>1</td>
-                
-                <td>18-09-2023, 18:52</td>
-
-                <td>REQXX01AZSDA</td>
-
-                <td>Andreas Ilham</td>
-
-                <td>Komp. Permata Biru Blok A2</td>
-
-                <td>25-09-2023</td>
-
-                <td>
-                    <a class="btn btn-md btn-secondary mx-2" th:href="@{/}">Detail</a>
-                </td>
+                <tr th:each="permintaan, iterStat : ${listPermintaanPengiriman}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${#dates.format(permintaan.waktu_permintaan, 'dd-MM-yyyy, HH:mm')}"></td>
+                    <td th:text="${permintaan.nomor_pengiriman}"></td>
+                    <td th:text="${permintaan.nama_penerima}"></td>
+                    <td th:text="${permintaan.alamat_penerima}"></td>
+                    <td th:text="${#dates.format(permintaan.tanggal_pengiriman, 'dd-MM-yyyy')}"></td>
+                    <td>
+                        <a class="btn btn-md btn-secondary mx-2" th:href="@{'/detail/' + ${permintaan.id}}">Detail</a>
+                    </td>
+                </tr>
             </tr>
         </tbody>
     </table>

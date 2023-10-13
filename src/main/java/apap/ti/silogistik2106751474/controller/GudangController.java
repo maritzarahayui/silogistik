@@ -2,9 +2,6 @@ package apap.ti.silogistik2106751474.controller;
 
 import apap.ti.silogistik2106751474.dto.GudangBarangMapper;
 import apap.ti.silogistik2106751474.dto.GudangMapper;
-import apap.ti.silogistik2106751474.dto.request.CreateBarangRequestDTO;
-import apap.ti.silogistik2106751474.dto.request.CreateGudangRequestDTO;
-import apap.ti.silogistik2106751474.dto.request.UpdateBarangRequestDTO;
 import apap.ti.silogistik2106751474.dto.request.UpdateGudangRequestDTO;
 import apap.ti.silogistik2106751474.model.Barang;
 import apap.ti.silogistik2106751474.model.Gudang;
@@ -14,13 +11,10 @@ import apap.ti.silogistik2106751474.service.BarangService;
 import apap.ti.silogistik2106751474.service.GudangBarangService;
 import apap.ti.silogistik2106751474.service.GudangService;
 import io.micrometer.common.util.StringUtils;
-import io.netty.util.internal.StringUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -60,35 +54,38 @@ public class GudangController {
         Gudang gudang = gudangService.getGudangById(idGudang);
         model.addAttribute("gudang", gudang);
 
-//        System.out.println("WOIII");
-//        System.out.println("WOIII " + gudang.getListGudangBarang());
-//        if (gudang.getListGudangBarang() != null) {
-//            for (GudangBarang gdg : gudang.getListGudangBarang()) {
-//                System.out.println("((cntrller) isi list gdg brg " + gdg.getBarang().getMerk());
-//            }
-//        }
+        System.out.println("HASHSHAAHSJHSJSHKJAHDKHDAHASJ list GUDBAR ");
 
         return "detail-gudang";
     }
 
     @GetMapping("/gudang/cari-barang")
-    public String cariBarang(@RequestParam(name = "cariBarang", required = false) String cariBarang, Model model) {
-        List<Gudang> listGudang;
+    public String cariBarang(@RequestParam(value = "sku", required = false) String sku, Model model) {
+        List<GudangBarang> listGudangBarang;
 
-        if (StringUtils.isNotBlank(cariBarang)){
-            listGudang = gudangService.searchGudangByBarang(cariBarang);
+        if (sku == null) {
+            listGudangBarang = new ArrayList<>();
         } else {
-            listGudang = gudangService.getAllGudang();
+            var barang = barangService.findBySku(sku);
+            if (barang != null) {
+                model.addAttribute("barang", barang);
+                listGudangBarang = barang.getListGudangBarang();
+            } else {
+                listGudangBarang = new ArrayList<>();
+            }
         }
 
-        model.addAttribute("listGudang", listGudang);
+        List<Barang> listBarang = barangService.getAllBarang();
+        model.addAttribute("listBarang", listBarang);
+
+        model.addAttribute("listGudangBarang", listGudangBarang);
 
         return "cari-barang";
     }
 
     @GetMapping("/gudang/{idGudang}/restock-barang")
-    public String restockGudang(@PathVariable("idGudang") Long id, Model model) {
-        var gudang = gudangService.getGudangById(id);
+    public String restockGudang(@PathVariable("idGudang") Long idGudang, Model model) {
+        var gudang = gudangService.getGudangById(idGudang);
 
         var gudangFromDto = gudangMapper.gudangToUpdateGudangRequestDTO(gudang);
         model.addAttribute("gudangDTO", gudangFromDto);
@@ -97,12 +94,37 @@ public class GudangController {
 
         List<Barang> listBarang = barangService.getAllBarang();
         model.addAttribute("listBarang", listBarang);
+        System.out.println("updategudangdto list GUDBAR ");
 
         return "restock-gudang";
     }
 
-    @PostMapping("/gudang/{id}/restock-barang")
-    public String postRestockGudang(@ModelAttribute UpdateGudangRequestDTO updateGudangRequestDTO, Model model) {
+    @PostMapping(value = "/gudang/{idGudang}/restock-barang", params = {"addRow"})
+    public String addRowBarang(@PathVariable("idGudang") Long idGudang,
+                               @ModelAttribute UpdateGudangRequestDTO updateGudangRequestDTO, Model model) {
+        if (updateGudangRequestDTO.getListGudangBarang() == null || updateGudangRequestDTO.getListGudangBarang().size() == 0) {
+            updateGudangRequestDTO.setListGudangBarang(new ArrayList<>());
+        }
+
+        System.out.println("ADISSSSSHHHHHHHHHHH list GUDBAR ");
+
+        updateGudangRequestDTO.getListGudangBarang().add(new GudangBarang());
+
+        model.addAttribute("gudangDTO", updateGudangRequestDTO);
+        model.addAttribute("listGudangBarang", updateGudangRequestDTO.getListGudangBarang());
+
+        List<Barang> listBarang = barangService.getAllBarang();
+        model.addAttribute("listBarang", listBarang);
+
+        return "restock-gudang";
+    }
+
+    @PostMapping("/gudang/{idGudang}/restock-barang")
+    public String postRestockGudang(@Valid @ModelAttribute UpdateGudangRequestDTO updateGudangRequestDTO,
+                                    @PathVariable Long idGudang, Model model) {
+        System.out.println("updategudangdto " + updateGudangRequestDTO);
+        System.out.println("updategudangdto list GUDBAR " + updateGudangRequestDTO.getListGudangBarang());
+
         var gudang = gudangMapper.updateGudangRequestDTOToGudang(updateGudangRequestDTO);
 
         if (gudang.getListGudangBarang() != null){
@@ -114,28 +136,9 @@ public class GudangController {
         gudangService.saveGudang(gudang);
 
         model.addAttribute("gudangDTO", updateGudangRequestDTO);
+        System.out.println("updategudangdto " + updateGudangRequestDTO);
+        System.out.println("updategudangdto list GUDBAR " + updateGudangRequestDTO.getListGudangBarang());
 
-//        List<Barang> listBarang = barangService.getAllBarang();
-//        model.addAttribute("listBarang", listBarang);
-
-        return "success-restock-gudang";
-//        return "detail-barang";
-    }
-
-    @PostMapping(value = "/gudang/{idGudang}/restock-barang", params = {"addRow"})
-    public String addRowBarang(@ModelAttribute UpdateGudangRequestDTO updateGudangRequestDTO, Model model) {
-        if (updateGudangRequestDTO.getListGudangBarang() == null || updateGudangRequestDTO.getListGudangBarang().size() == 0) {
-            updateGudangRequestDTO.setListGudangBarang(new ArrayList<>());
-        }
-
-        updateGudangRequestDTO.getListGudangBarang().add(new GudangBarang());
-
-        model.addAttribute("gudangDTO", updateGudangRequestDTO);
-        model.addAttribute("listGudangBarang", updateGudangRequestDTO.getListGudangBarang());
-
-        List<Barang> listBarang = barangService.getAllBarang();
-        model.addAttribute("listBarang", listBarang);
-
-        return "restock-gudang";
+        return "daftar-barang";
     }
 }
