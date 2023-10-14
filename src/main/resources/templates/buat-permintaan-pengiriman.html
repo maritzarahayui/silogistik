@@ -46,16 +46,17 @@
                                 <td class="d-flex align-items-center w-100">
                                     <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
                                         <p class="mb-2">Karyawan Bertugas :</p>
-                                        <select name="karyawanId" class="form-select" th:field="*{karyawanId}">
+                                        <select name="karyawan.id" class="form-select" th:field="*{karyawan.id}">
                                             <option value="">Pilih Karyawan</option>
-                                            <option th:each="karyawan : ${listKaryawan}" th:value="${karyawan.id}"
-                                                th:text="${karyawan.nama}"></option>
-                                        </select>
+                                            <option th:each="karyawan : ${listKaryawan}" th:value="${karyawan.id}" th:text="${karyawan.nama}"></option>
+                                        </select>                                        
                                     </div>
-                                    
+
                                     <div class="col-6 mb-3" style="width: 50%">
                                         <p class="mb-2">Tanggal Pengiriman</p>
-                                        <input type="text" class="form-control" placeholder="dd/mm/yyyy" th:field="*{tanggalPengiriman}" />
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" placeholder="dd/mm/yyyy" th:field="*{tanggal_pengiriman}" />
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -65,16 +66,15 @@
                                 <td class="d-flex align-items-center w-100">
                                     <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
                                         <p class="mb-2">Nama Penerima :</p>
-                                        <input type="text" class="form-control" th:field="*{namaPenerima}" />
+                                        <input type="text" class="form-control" th:field="*{nama_penerima}" />
                                     </div>
                                     
                                     <!-- Jenis Layanan -->
                                     <div class="col-6 mb-3">
                                         <p class="mb-2">Jenis Layanan :</p>
-                                        <select name="jenisLayanan" class="form-select" th:field="*{jenisLayanan}">
+                                        <select name="jenis_layanan" class="form-select" th:field="*{jenis_layanan}">
                                             <option value="">Pilih Jenis Layanan</option>
-                                            <option th:each="entry : ${listTipeBarang}" th:value="${entry.key}"
-                                                th:text="${entry.value}"></option>
+                                            <option th:each="entry : ${listJenisLayanan}" th:value="${entry.key}" th:text="${entry.value}"></option>
                                         </select>
                                     </div>
                                 </td>
@@ -85,25 +85,25 @@
                                 <td class="d-flex align-items-center w-100">
                                     <div class="col-6 mb-3" style="width: 48%; margin-right: 2%;">
                                         <p class="mb-2">Alamat Penerima :</p>
-                                        <input type="text" class="form-control" th:field="*{alamatPenerima}" />
+                                        <input type="text" class="form-control" th:field="*{alamat_penerima}" />
                                     </div>
                                     
                                     <!-- Biaya Pengiriman -->
                                     <div class="col-6 mb-3" style="width: 50%">
                                         <p class="mb-2">Biaya Pengiriman :</p>
-                                        <input type="text" class="form-control" th:field="*{biayaPengiriman}" />
+                                        <input type="text" class="form-control" th:field="*{biaya_pengiriman}" />
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-        
+
                     <div class="d-flex justify-content-between add-button">
                         <span></span>
-                        <a class="btn btn-primary btn-md mx-2 d-flex align-items-center" th:href="@{/}">
+                        <button type="submit" class="btn btn-primary btn-md mx-2 d-flex align-items-center" name="addRow" id="addRow">
                             <i class="bi bi-plus"></i>
                             <span class="ms-1">Tambah Barang</span>
-                        </a>              
+                        </button>
                     </div>
 
                     <table id="dataTables" class="table table-bordered">
@@ -114,19 +114,18 @@
                                 <th>Kuantitas</th>
                             </tr>
                         </thead>
-                
-                        <!-- Barang entries -->
+
                         <tbody>
-                            <tr th:each="item, rowStat : *{listBarang}">
+                            <tr th:each="item, rowStat : *{listPermintaanPengirimanBarang}">
                                 <td th:text="${rowStat.index + 1}"></td>
                                 <td>
-                                    <select name="listBarang" class="form-select" th:field="*{listBarang[__${rowStat.index}__].id}">
+                                    <select name="listPermintaanPengirimanBarang" class="form-select" th:field="*{listPermintaanPengirimanBarang[__${rowStat.index}__].barang}">
                                         <option value="">Pilih Barang</option>
-                                        <option th:each="barang : ${listBarang}" th:value="${barang.id}" th:text="${barang.nama}"></option>
+                                        <option th:each="barang : ${listBarang}" th:value="${barang.sku}" th:text="${barang.merk}"></option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="Jumlah Stok" th:field="*{listBarang[__${rowStat.index}__].stok}" />
+                                    <input type="text" class="form-control" placeholder="Jumlah Stok" th:field="*{listPermintaanPengirimanBarang[__${rowStat.index}__].kuantitas_pesanan}" />
                                 </td>
                             </tr>
                         </tbody>
@@ -142,16 +141,5 @@
     </div>
 </div>
 </body>
-
-<script>
-    // Inisialisasi Datepicker pada input dengan id "tanggalPengiriman"
-    const tanggalPengirimanInput = document.getElementById('tanggalPengiriman');
-    const datepicker = new Datepicker(tanggalPengirimanInput);
-
-    // Menampilkan kalender saat input tanggal di-klik
-    tanggalPengirimanInput.addEventListener('click', () => {
-        datepicker.show();
-    });
-</script>
 
 </html>

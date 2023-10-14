@@ -1,12 +1,13 @@
 package apap.ti.silogistik2106751474.dto.request;
 
+import apap.ti.silogistik2106751474.model.GudangBarang;
 import apap.ti.silogistik2106751474.model.Karyawan;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import apap.ti.silogistik2106751474.model.PermintaanPengirimanBarang;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,9 +20,12 @@ public class CreatePermintaanPengirimanRequestDTO {
     private Boolean is_cancelled;
     private String nama_penerima;
     private String alamat_penerima;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date tanggal_pengiriman;
     private Integer biaya_pengiriman;
     private Integer jenis_layanan;
     private Date waktu_permintaan;
     private Karyawan karyawan;
+    private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang;
 }

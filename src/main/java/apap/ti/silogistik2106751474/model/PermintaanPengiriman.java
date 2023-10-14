@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,8 +27,7 @@ public class PermintaanPengiriman {
     @Column(name = "nomor_pengiriman", nullable = false)
     private String nomor_pengiriman;
 
-    @NotNull
-    @Column(name = "is_cancelled", nullable = false)
+    @Column(name = "is_cancelled")
     private Boolean is_cancelled;
 
     @NotNull
@@ -56,4 +57,7 @@ public class PermintaanPengiriman {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_karyawan", referencedColumnName = "id")
     private Karyawan karyawan;
+
+    @OneToMany(mappedBy = "permintaanPengiriman", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang = new ArrayList<>();
 }

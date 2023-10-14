@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-
 <head>
     <meta charset="UTF-8" />
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
     <title>Detail Permintaan Pengiriman</title>
-
     <style>
-       .thead {
+        .thead {
             background-color: rgb(53, 53, 53);
             color: white;
         }
@@ -18,7 +16,6 @@
         }
     </style>
 </head>
-
 <body>
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 <div class="container">
@@ -26,27 +23,30 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h2>Detail Permintaan Pengiriman</h2>
-                <a class="btn btn-danger btn-md mx-2 d-flex align-items-center" th:href="@{/}">
+                <a class="btn btn-danger btn-md mx-2 d-flex align-items-center"
+                   th:href="@{'/permintaan-pengiriman/' + ${permintaan.id} + '/cancel'}">
                     <span class="ms-1">Cancel Permintaan</span>
-                </a>              
+                </a>
             </div>
-            
+
             <div class="card-body" style="text-align: left;">
                 <div class="row">
                     <div class="col-6 d-flex align-items-center">
                         <p>No. Permintaan Pengiriman</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: REQXX01AZSDA</p>
+                        <p th:text="' : ' + ${permintaan.nomor_pengiriman}"></p>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-6 d-flex align-items-center">
                         <p>Waktu Permintaan</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: 18-09-2023, 18:52</p>
+                        <p th:text="' : ' + ${#dates.format(permintaan.waktu_permintaan, 'dd-MM-yyyy, HH:mm')}"></p>
                     </div>
                 </div>
 
@@ -54,8 +54,9 @@
                     <div class="col-6 d-flex align-items-center">
                         <p>Karyawan Bertugas</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: Alfia Zahra</p>
+                        <p th:text="' : ' + ${permintaan.karyawan.nama}"></p>
                     </div>
                 </div>
 
@@ -63,8 +64,9 @@
                     <div class="col-6 d-flex align-items-center">
                         <p>Waktu Pengiriman</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: 18-09-2023</p>
+                        <p th:text="' : ' + ${#dates.format(permintaan.tanggal_pengiriman, 'dd-MM-yyyy')}"></p>
                     </div>
                 </div>
 
@@ -72,8 +74,9 @@
                     <div class="col-6 d-flex align-items-center">
                         <p>Nama Penerima</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: Andreas Ilham</p>
+                        <p th:text="' : ' + ${permintaan.nama_penerima}"></p>
                     </div>
                 </div>
 
@@ -81,8 +84,9 @@
                     <div class="col-6 d-flex align-items-center">
                         <p>Alamat Penerima</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: Komp. Permata Biru Blok A2</p>
+                        <p th:text="' : ' + ${permintaan.alamat_penerima}"></p>
                     </div>
                 </div>
 
@@ -90,8 +94,9 @@
                     <div class="col-6 d-flex align-items-center">
                         <p>Jenis Layanan</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: Same Day</p>
+                        <p th:text="' : ' + ${listJenisLayanan[permintaan.jenis_layanan]}"></p>
                     </div>
                 </div>
 
@@ -99,15 +104,16 @@
                     <div class="col-6 d-flex align-items-center">
                         <p>Biaya Pengiriman</p>
                     </div>
+
                     <div class="col-6">
-                        <p>: Rp30000</p>
+                        <p th:text="' : Rp' + ${permintaan.biaya_pengiriman}"></p>
                     </div>
                 </div>
 
                 <div class="text-left pt-3 mb-3">
                     <h5>Daftar barang dipesan</h5>
                 </div>
-            
+
                 <table id="dataTables" class="table table-bordered">
                     <thead class="thead">
                         <tr>
@@ -118,30 +124,52 @@
                             <th>Total Harga</th>
                         </tr>
                     </thead>
-            
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            
-                            <td><a href="/">ELEC001</a></td>
-            
-                            <td>iPhone 15 Pro Max 1TB</td>
 
-                            <td>1</td>
+                    <!-- <tbody>
+                        <tr th:each="barang, nomor: ${listBarang}">
+                            <td th:text="${nomor.index + 1}"></td>
 
-                            <td>Rp28000000</td>
+                            <td>
+                                <a th:href="@{'/barang/' + ${barang.sku}}">
+                                    <span th:text="${barang.sku}"></span>
+                                </a>
+                            </td>
+
+                            <td th:text="${barang.merk}"></td>
+
+                            <td>
+                                <th:block th:each="item : ${listPermintaanPengirimanBarang}">
+                                    <span th:if="${item.barang.sku == barang.sku}" th:text="${item.kuantitas_pesanan}"></span>
+                                </th:block>
+                            </td>
+
+                            <td>
+                                <th:block th:each="item : ${listPermintaanPengirimanBarang}">
+                                    <span th:if="${item.barang.sku == barang.sku}" th:text="'Rp' + ${item.barang.harga_barang * item.kuantitas_pesanan}"></span>
+                                </th:block>
+                            </td>
                         </tr>
+                    </tbody> -->
+
+                    <tbody>
+                        <th:block th:each="permintaanPengirimanBarang, iterStat : ${listPermintaanPengirimanBarang}">
+                            <tr>
+                                <td th:text="${iterStat.index + 1}"></td>
+                                <td th:text="${permintaanPengirimanBarang.barang.sku}"></td>
+                                <td th:text="${permintaanPengirimanBarang.barang.merk}"></td>
+                                <td th:text="${permintaanPengirimanBarang.kuantitas_pesanan}"></td>
+                                <td th:text="'Rp' + ${permintaanPengirimanBarang.barang.harga_barang * permintaanPengirimanBarang.kuantitas_pesanan}"></td>
+                            </tr>
+                        </th:block>
                     </tbody>
                 </table>
-            </div>   
-            
+            </div>
+
             <div class="text-center m-3">
-                <a type="button" class="btn btn-secondary m-2 mb-3" href="/">Kembali</a>
+                <a type="button" class="btn btn-secondary m-2 mb-3" href="/permintaan-pengiriman">Kembali</a>
             </div>
         </div>
-
     </div>
 </div>
 </body>
-
 </html>

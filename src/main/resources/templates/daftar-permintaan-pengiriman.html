@@ -56,7 +56,7 @@
                     <td th:text="${permintaan.alamat_penerima}"></td>
                     <td th:text="${#dates.format(permintaan.tanggal_pengiriman, 'dd-MM-yyyy')}"></td>
                     <td>
-                        <a class="btn btn-md btn-secondary mx-2" th:href="@{'/detail/' + ${permintaan.id}}">Detail</a>
+                        <a class="btn btn-md btn-secondary mx-2" th:href="@{'/permintaan-pengiriman/' + ${permintaan.id}}">Detail</a>
                     </td>
                 </tr>
             </tr>

@@ -199,16 +199,4 @@ public class BarangController {
 
         return "success-update-barang";
     }
-
-    @GetMapping("/permintaan-pengiriman/idPermintaanPengiriman")
-    public String detailPermintaanPengiriman(Model model) {
-        return "detail-permintaan-pengiriman";
-    }
-
-
-
-    @GetMapping("/permintaan-pengiriman/idPermintaanPengiriman/cancel")
-    public String cancelPermintaanPengiriman(Model model) {
-        return "cancel-permintaan";
-    }
 }
