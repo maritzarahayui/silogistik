@@ -1,6 +1,7 @@
 package apap.ti.silogistik2106751474.service;
 
 import apap.ti.silogistik2106751474.model.Barang;
+import apap.ti.silogistik2106751474.model.Gudang;
 import apap.ti.silogistik2106751474.model.GudangBarang;
 import apap.ti.silogistik2106751474.repository.GudangBarangDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class GudangBarangServiceImpl implements GudangBarangService {
             gudangBarangDb.save(gudbar);
         }
         return gudbar;
+    }
+
+    @Override
+    public GudangBarang findGudangBarangByGudangAndBarang(Gudang gudang, Barang barang) {
+        return gudangBarangDb.findByGudangAndBarang(gudang, barang);
     }
 
 }

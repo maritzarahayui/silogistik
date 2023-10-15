@@ -114,8 +114,8 @@ public class GudangController {
     }
 
     @PostMapping(value = "/gudang/{idGudang}/restock-barang", params = {"addRow"})
-    public String addRowBarang(@PathVariable("idGudang") Long idGudang, BindingResult bindingResult,
-                               @ModelAttribute UpdateGudangRequestDTO updateGudangRequestDTO, Model model) {
+    public String addRowBarang(@PathVariable("idGudang") Long idGudang, @ModelAttribute UpdateGudangRequestDTO updateGudangRequestDTO,
+                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()){
             List<ObjectError> err = bindingResult.getAllErrors();
 

@@ -1,5 +1,6 @@
 package apap.ti.silogistik2106751474.service;
 
+import apap.ti.silogistik2106751474.dto.request.UpdateGudangRequestDTO;
 import apap.ti.silogistik2106751474.model.Gudang;
 import apap.ti.silogistik2106751474.model.GudangBarang;
 
@@ -11,4 +12,5 @@ public interface GudangService {
     List<Gudang> getAllGudang();
     Gudang getGudangById(Long id);
     List<Gudang> findGudangByBarang(String barang);
+    void checkAndProcessDuplicateData(UpdateGudangRequestDTO gudangDTO, Gudang gudang);
 }

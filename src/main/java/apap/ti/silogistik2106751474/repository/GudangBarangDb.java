@@ -1,6 +1,7 @@
 package apap.ti.silogistik2106751474.repository;
 
 import apap.ti.silogistik2106751474.model.Barang;
+import apap.ti.silogistik2106751474.model.Gudang;
 import apap.ti.silogistik2106751474.model.GudangBarang;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,5 @@ public interface GudangBarangDb extends JpaRepository<GudangBarang, Long> {
     List<GudangBarang> findAll();
     Optional<GudangBarang> findById(Long id);
     List<GudangBarang> findByBarang(Barang barang);
+    GudangBarang findByGudangAndBarang(Gudang gudang, Barang barang);
 }
