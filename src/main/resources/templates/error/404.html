@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>404</title>
+
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+
+    <style>
+        img{
+            max-width: 100px;
+            max-height: 100px;
+        }
+    
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+    
+        .container {
+            margin-top: 8%;
+        }
+      </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="images d-flex justify-content-center align-items-center">
+                <img src="/images/error.png">
+            </div>
+
+            <div class="text-center">
+                <h2>Halaman Tidak Ditemukan</h2>
+            </div>
+
+            <div class="text-center m-3">
+                <a type="button" class="btn btn-md btn-primary" href="/">Kembali ke beranda</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

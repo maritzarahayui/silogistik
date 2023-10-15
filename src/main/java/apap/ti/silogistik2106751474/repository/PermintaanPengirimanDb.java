@@ -15,5 +15,4 @@ public interface PermintaanPengirimanDb extends JpaRepository<PermintaanPengirim
 
     @Query("SELECT p FROM PermintaanPengiriman p WHERE p.is_cancelled = false")
     List<PermintaanPengiriman> findByIsCancelledFalse();
-
 }

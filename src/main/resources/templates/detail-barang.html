@@ -16,6 +16,10 @@
         a {
             text-decoration: none;
         }
+
+        table {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -35,46 +39,46 @@
 
             <div class="card-body" style="text-align: left;">
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Merk</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <p>: <span th:text="${barang.merk}"></span></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>SKU</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <p>: <span th:text="${barang.sku}"></span></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Tipe Barang</p>
                     </div>
-                    <div class="col-6">
-                        <p>: <span th:text="${barang.tipe_barang}"></span></p>
+                    <div class="col-4">
+                        <p>: [[${listTipeBarang[barang.tipe_barang]}]]</p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Total Stok</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <p>: <span th:text="${totalStokGudang[barang.sku]}"></span></p>
                     </div>
                 </div>                
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Harga</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <p>: <span th:text="${barang.harga_barang}"></span></p>
                     </div>
                 </div>
@@ -98,7 +102,7 @@
                             <td th:text="${nomor.index + 1}"></td>
                     
                             <td>
-                                <a th:if="${gudangBarang.barang != null}" th:href="@{'/barang/' + ${gudangBarang.gudang.nama}}">
+                                <a th:href="@{'/gudang/' + ${gudangBarang.gudang.id}}">
                                     <span th:text="${gudangBarang.gudang.nama}"></span>
                                 </a>
                             </td>

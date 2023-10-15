@@ -75,9 +75,18 @@ public class BarangController {
 
     @GetMapping("/barang")
     public String daftarBarang(Model model) {
-        List<Barang> listBarang = barangDb.findAll();
+        List<Barang> listBarang = barangService.getAllBarang();
         model.addAttribute("listBarang", listBarang);
 
+        Map<String, Integer> totalStokGudang = new HashMap<>();
+        for (Barang brg : listBarang){
+            int total = barangService.totalStok(brg);
+            totalStokGudang.put(brg.getSku(), total);
+        }
+
+        model.addAttribute("totalStokGudang", totalStokGudang);
+
+        model.addAttribute("activePage", "Barang");
         return "daftar-barang";
     }
 
@@ -90,11 +99,13 @@ public class BarangController {
         Map<Integer, String> listTipeBarang = barangService.listTipeBarang();
         model.addAttribute("listTipeBarang", listTipeBarang);
 
+        model.addAttribute("activePage", "Barang");
         return "tambah-barang";
     }
 
     @PostMapping("/barang/tambah")
-    public String tambahBarang(@Valid @ModelAttribute CreateBarangRequestDTO barangDTO, BindingResult bindingResult, Model model) {
+    public String tambahBarang(@Valid @ModelAttribute CreateBarangRequestDTO barangDTO,
+                               BindingResult bindingResult, Model model) {
         System.out.println("post ni bangg");
 
         if (bindingResult.hasErrors()) {
@@ -114,12 +125,13 @@ public class BarangController {
         barang.setSku(sku);
         barangService.saveBarang(barang);
 
-        model.addAttribute("sku", barang.getSku());
+        model.addAttribute("merk", barang.getMerk());
         model.addAttribute("barangBaru", barang);
 
         List<Barang> listBarang = barangService.getAllBarang();
-        model.addAttribute("listBarang", listBarang); // Simpan listBarang dalam model
+        model.addAttribute("listBarang", listBarang);
 
+        model.addAttribute("activePage", "Barang");
         return "success-tambah-barang";
     }
 
@@ -134,29 +146,19 @@ public class BarangController {
         List<GudangBarang> listGudangBarang = gudangBarangService.findByBarang(barang);
         model.addAttribute("listGudangBarang", listGudangBarang);
 
-        int id_barang = barang.getTipe_barang();
-        String tipe = barangService.listTipeBarang().get(id_barang);
-        model.addAttribute("tipe", tipe);
+        Map<Integer, String> listTipeBarang = barangService.listTipeBarang();
+        model.addAttribute("listTipeBarang", listTipeBarang);
 
         Map<String, Integer> totalStokGudang = new HashMap<>();
         for (Barang brg : listBarang){
-            int total = totalStok(brg);
+            int total = barangService.totalStok(brg);
             totalStokGudang.put(brg.getSku(), total);
         }
 
         model.addAttribute("totalStokGudang", totalStokGudang);
 
+        model.addAttribute("activePage", "Barang");
         return "detail-barang";
-    }
-
-    private int totalStok(Barang barang){
-        int total = 0;
-
-        for (GudangBarang gudbar : barang.getListGudangBarang()){
-            total += gudbar.getStok();
-        }
-
-        return total;
     }
 
     @GetMapping("/barang/{sku}/ubah")
@@ -169,11 +171,13 @@ public class BarangController {
 
         model.addAttribute("listTipeBarang", listTipeBarang);
 
+        model.addAttribute("activePage", "Barang");
         return "ubah-barang";
     }
 
     @PostMapping("/barang/{sku}/ubah")
-    public String ubahBarang(@PathVariable String sku, @Valid @ModelAttribute UpdateBarangRequestDTO barangDTO, BindingResult bindingResult, Model model) {
+    public String ubahBarang(@PathVariable String sku, @Valid @ModelAttribute UpdateBarangRequestDTO barangDTO,
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()){
             List<ObjectError> err = bindingResult.getAllErrors();
 
@@ -197,6 +201,7 @@ public class BarangController {
 
         model.addAttribute("sku", barang.getSku());
 
+        model.addAttribute("activePage", "Barang");
         return "success-update-barang";
     }
 }

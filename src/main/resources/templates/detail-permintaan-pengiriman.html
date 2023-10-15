@@ -14,98 +14,123 @@
         a {
             text-decoration: none;
         }
+
+        .badge-danger-outline {
+            background-color: transparent;
+            color: #dc3545; /* Warna teks merah */
+            border: 1px solid #dc3545; /* Warna garis tepi merah */
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem; /* Opsional, untuk sudut dengan radius */
+        }
+
+        table {
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
 <div class="container">
     <div class="text-center pt-5 mb-5">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h2>Detail Permintaan Pengiriman</h2>
-                <a class="btn btn-danger btn-md mx-2 d-flex align-items-center"
-                   th:href="@{'/permintaan-pengiriman/' + ${permintaan.id} + '/cancel'}">
-                    <span class="ms-1">Cancel Permintaan</span>
-                </a>
+
+                <div th:if="${is_canceled}">
+                    <span class="badge badge-danger-outline">Permintaan dibatalkan</span>
+                </div>
+                
+                <div th:unless="${is_canceled}">
+                    <a th:if="${selisihWaktu <= jamDalamSehari}" class="btn btn-danger btn-md mx-2 d-flex align-items-center"
+                       th:href="@{'/permintaan-pengiriman/' + ${permintaan.id} + '/cancel'}">
+                        <span class="ms-1">Cancel Permintaan</span>
+                    </a>
+
+                    <button th:if="${selisihWaktu > jamDalamSehari}" class="btn btn-danger btn-md mx-2 d-flex align-items-center" disabled="disabled">
+                        <span class="ms-1">Cancel Permintaan</span>
+                    </button>
+                </div>
             </div>
 
             <div class="card-body" style="text-align: left;">
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>No. Permintaan Pengiriman</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${permintaan.nomor_pengiriman}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Waktu Permintaan</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${#dates.format(permintaan.waktu_permintaan, 'dd-MM-yyyy, HH:mm')}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Karyawan Bertugas</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${permintaan.karyawan.nama}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Waktu Pengiriman</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${#dates.format(permintaan.tanggal_pengiriman, 'dd-MM-yyyy')}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Nama Penerima</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${permintaan.nama_penerima}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Alamat Penerima</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${permintaan.alamat_penerima}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Jenis Layanan</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : ' + ${listJenisLayanan[permintaan.jenis_layanan]}"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                         <p>Biaya Pengiriman</p>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <p th:text="' : Rp' + ${permintaan.biaya_pengiriman}"></p>
                     </div>
                 </div>
@@ -124,32 +149,6 @@
                             <th>Total Harga</th>
                         </tr>
                     </thead>
-
-                    <!-- <tbody>
-                        <tr th:each="barang, nomor: ${listBarang}">
-                            <td th:text="${nomor.index + 1}"></td>
-
-                            <td>
-                                <a th:href="@{'/barang/' + ${barang.sku}}">
-                                    <span th:text="${barang.sku}"></span>
-                                </a>
-                            </td>
-
-                            <td th:text="${barang.merk}"></td>
-
-                            <td>
-                                <th:block th:each="item : ${listPermintaanPengirimanBarang}">
-                                    <span th:if="${item.barang.sku == barang.sku}" th:text="${item.kuantitas_pesanan}"></span>
-                                </th:block>
-                            </td>
-
-                            <td>
-                                <th:block th:each="item : ${listPermintaanPengirimanBarang}">
-                                    <span th:if="${item.barang.sku == barang.sku}" th:text="'Rp' + ${item.barang.harga_barang * item.kuantitas_pesanan}"></span>
-                                </th:block>
-                            </td>
-                        </tr>
-                    </tbody> -->
 
                     <tbody>
                         <th:block th:each="permintaanPengirimanBarang, iterStat : ${listPermintaanPengirimanBarang}">

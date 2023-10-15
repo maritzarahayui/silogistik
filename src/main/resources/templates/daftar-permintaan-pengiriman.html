@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    
     <title>Daftar Permintaan Pengiriman</title>
 
     <style>
@@ -15,6 +16,10 @@
 
         td, .thead {
             text-align: center;
+        }
+
+        .container {
+            padding-bottom: 50px;
         }
     </style>
 </head>
@@ -47,22 +52,31 @@
         </thead>
 
         <tbody>
-            <tr>
-                <tr th:each="permintaan, iterStat : ${listPermintaanPengiriman}">
-                    <td th:text="${iterStat.index + 1}"></td>
-                    <td th:text="${#dates.format(permintaan.waktu_permintaan, 'dd-MM-yyyy, HH:mm')}"></td>
-                    <td th:text="${permintaan.nomor_pengiriman}"></td>
-                    <td th:text="${permintaan.nama_penerima}"></td>
-                    <td th:text="${permintaan.alamat_penerima}"></td>
-                    <td th:text="${#dates.format(permintaan.tanggal_pengiriman, 'dd-MM-yyyy')}"></td>
-                    <td>
-                        <a class="btn btn-md btn-secondary mx-2" th:href="@{'/permintaan-pengiriman/' + ${permintaan.id}}">Detail</a>
-                    </td>
-                </tr>
+            <tr th:each="permintaan, iterStat : ${listPermintaanPengiriman}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${#dates.format(permintaan.waktu_permintaan, 'dd-MM-yyyy, HH:mm')}"></td>
+                <td th:text="${permintaan.nomor_pengiriman}"></td>
+                <td th:text="${permintaan.nama_penerima}"></td>
+                <td th:text="${permintaan.alamat_penerima}"></td>
+                <td th:text="${#dates.format(permintaan.tanggal_pengiriman, 'dd-MM-yyyy')}"></td>
+                <td>
+                    <a class="btn btn-md btn-secondary mx-2" th:href="@{'/permintaan-pengiriman/' + ${permintaan.id}}">Detail</a>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables').DataTable({
+            "paging": true,
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 20]
+        });
+    });
+</script>
+
 </body>
 
 </html>

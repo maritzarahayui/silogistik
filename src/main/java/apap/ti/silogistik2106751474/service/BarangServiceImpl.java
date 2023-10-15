@@ -1,14 +1,16 @@
 package apap.ti.silogistik2106751474.service;
 
 import apap.ti.silogistik2106751474.model.Barang;
-import apap.ti.silogistik2106751474.model.Gudang;
+import apap.ti.silogistik2106751474.model.GudangBarang;
 import apap.ti.silogistik2106751474.repository.BarangDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BarangServiceImpl implements BarangService {
@@ -21,8 +23,20 @@ public class BarangServiceImpl implements BarangService {
     }
 
     @Override
+    public List<Barang> getAllBarangAscending(){
+        List<Barang> allBarang = barangDb.findAll();
+
+        return allBarang.stream()
+                .sorted(Comparator.comparing(Barang::getMerk)).toList();
+    }
+
+    @Override
     public List<Barang> getAllBarang(){
-        return barangDb.findAll();
+//        return barangDb.findAll();
+        return barangDb.findAll()
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -80,6 +94,17 @@ public class BarangServiceImpl implements BarangService {
             barangDb.save(barang);
         }
         return barang;
+    }
+
+    @Override
+    public int totalStok(Barang barang){
+        int total = 0;
+
+        for (GudangBarang gudbar : barang.getListGudangBarang()){
+            total += gudbar.getStok();
+        }
+
+        return total;
     }
 
 }

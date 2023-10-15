@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    
     <title>Daftar Barang</title>
 
     <style>
@@ -15,6 +16,10 @@
 
         td, .thead {
             text-align: center;
+        }
+
+        .container {
+            padding-bottom: 50px;
         }
     </style>
 </head>
@@ -48,22 +53,34 @@
         <tbody>
             <tr th:each="barang, nomor: ${listBarang}">
                 <td th:text="${nomor.index + 1}"></td>
+
                 <td th:text="${barang.sku}"></td>
+
                 <td th:text="${barang.merk}"></td>
-                <td>
-                    <span th:each="gudangBarang : ${barang.listGudangBarang}" th:if="${gudangBarang.barang.sku == barang.sku}" th:text="${gudangBarang.stok}"></span>
-                </td>
+
+                <td th:text="${totalStokGudang[barang.sku]}"></td>
+                
                 <td th:text="${barang.harga_barang}"></td>
+                
                 <td>
                     <a class="btn btn-md btn-secondary mx-2" th:href="@{/barang/{sku}(sku=${barang.sku})}">Detail</a>
                 </td>
             </tr>
         </tbody>
         
-        
     </table>
     
 </div>
 </body>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables').DataTable({
+            "paging": true,
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 20]
+        });
+    });
+</script>
 
 </html>

@@ -20,7 +20,6 @@ public class CreatePermintaanPengirimanRequestDTO {
     private Boolean is_cancelled;
     private String nama_penerima;
     private String alamat_penerima;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date tanggal_pengiriman;
     private Integer biaya_pengiriman;

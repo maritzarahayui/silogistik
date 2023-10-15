@@ -11,6 +11,7 @@ public interface PermintaanPengirimanService {
     void savePermintaanPengiriman(PermintaanPengiriman permintaanPengiriman);
     String generateNomorPengiriman(int jumlahBarang, int jenisLayanan);
     PermintaanPengiriman findById(Long id);
-    List<PermintaanPengiriman> findNonCancelledPermintaanPengiriman();
     void cancelPermintaanPengiriman(PermintaanPengiriman permintaanPengiriman);
+    long calculateTimeDifference(PermintaanPengiriman permintaan);
+    long getJamDalamSehari();
 }

@@ -1,13 +1,11 @@
 package apap.ti.silogistik2106751474.service;
 
 import apap.ti.silogistik2106751474.model.Gudang;
-import apap.ti.silogistik2106751474.model.GudangBarang;
 import apap.ti.silogistik2106751474.repository.GudangDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class GudangServiceImpl implements GudangService {
@@ -33,11 +31,6 @@ public class GudangServiceImpl implements GudangService {
         }
         return null;
     }
-
-//    @Override
-//    public List<Gudang> searchGudangByBarang(String barang) {
-//        return gudangDb.findGudangByBarang(barang);
-//    }
 
     @Override
     public List<Gudang> findGudangByBarang(String barang) {

@@ -2,9 +2,7 @@ package apap.ti.silogistik2106751474.controller;
 
 import apap.ti.silogistik2106751474.dto.BarangMapper;
 import apap.ti.silogistik2106751474.dto.PermintaanPengirimanMapper;
-import apap.ti.silogistik2106751474.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106751474.dto.request.CreatePermintaanPengirimanRequestDTO;
-import apap.ti.silogistik2106751474.dto.request.UpdateGudangRequestDTO;
 import apap.ti.silogistik2106751474.model.*;
 import apap.ti.silogistik2106751474.repository.PermintaanPengirimanDb;
 import apap.ti.silogistik2106751474.service.BarangService;
@@ -15,15 +13,14 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PermintaanPengirimanController {
@@ -50,10 +47,13 @@ public class PermintaanPengirimanController {
 
     @GetMapping("/permintaan-pengiriman")
     public String daftarPermintaanPengiriman(Model model) {
-        List<PermintaanPengiriman> listPermintaanPengiriman = permintaanPengirimanDb.findByIsCancelledFalse();
+        List<PermintaanPengiriman> listPermintaanPengiriman = permintaanPengirimanService.getAllPermintaanPengiriman();
+
+        listPermintaanPengiriman.sort(Comparator.comparing(PermintaanPengiriman::getWaktu_permintaan).reversed());
 
         model.addAttribute("listPermintaanPengiriman", listPermintaanPengiriman);
 
+        model.addAttribute("activePage", "PermintaanPengiriman");
         return "daftar-permintaan-pengiriman";
     }
 
@@ -67,19 +67,31 @@ public class PermintaanPengirimanController {
         model.addAttribute("listJenisLayanan", listJenisLayanan);
 
         List<Barang> listBarang = barangService.getAllBarang();
-//        model.addAttribute("listBarang", listBarang);
         model.addAttribute("listBarang", listBarang);
 
         var permintaan_pengiriman = new CreatePermintaanPengirimanRequestDTO();
-
         model.addAttribute("permintaan_pengiriman", permintaan_pengiriman);
 
+        model.addAttribute("activePage", "PermintaanPengiriman");
         return "buat-permintaan-pengiriman";
     }
 
     @PostMapping(value = "/permintaan-pengiriman/tambah", params = {"addRow"})
-    public String addRowBarang(@Valid @ModelAttribute CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO, Model model) {
-        System.out.println("INI ADD ROWWWWWW");
+    public String addRowBarang(@Valid @ModelAttribute CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO,
+                               BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
+            List<ObjectError> err = bindingResult.getAllErrors();
+
+            StringBuilder errorMessage = new StringBuilder();
+
+            for(ObjectError r : err){
+                errorMessage.append(r.getDefaultMessage());
+                errorMessage.append("\n");
+            }
+
+            model.addAttribute("errorMessage", errorMessage);
+            return "error-view";
+        }
 
         if (createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang() == null ||
                 createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang().size() == 0) {
@@ -95,19 +107,26 @@ public class PermintaanPengirimanController {
         model.addAttribute("listKaryawan", karyawanService.getAllKaryawan());
         model.addAttribute("listJenisLayanan", permintaanPengirimanService.listJenisLayanan());
 
+        model.addAttribute("activePage", "PermintaanPengiriman");
         return "buat-permintaan-pengiriman";
     }
 
     @PostMapping("/permintaan-pengiriman/tambah")
     public String postTambahPermintaanPengiriman(@Valid @ModelAttribute CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO,
-                                    Model model) {
+                                                 BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
+            List<ObjectError> err = bindingResult.getAllErrors();
 
-        System.out.println("skrg post beneran masya allah tabarakallah");
+            StringBuilder errorMessage = new StringBuilder();
 
-//        int jumlahBarang = createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang().size();
+            for(ObjectError r : err){
+                errorMessage.append(r.getDefaultMessage());
+                errorMessage.append("\n");
+            }
 
-        System.out.println("biaya " + createPermintaanPengirimanRequestDTO.getBiaya_pengiriman());
-        System.out.println("nomor " + createPermintaanPengirimanRequestDTO.getNomor_pengiriman());
+            model.addAttribute("errorMessage", errorMessage);
+            return "error-view";
+        }
 
         int jumlahBarang = 0;
         if (createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang() != null) {
@@ -137,10 +156,7 @@ public class PermintaanPengirimanController {
 
         model.addAttribute("nomor_pengiriman", nomorPengiriman);
 
-        System.out.println("permintaanPengirimanBarangDTO " + createPermintaanPengirimanRequestDTO);
-        System.out.println("permintaanPengirimanBarangDTO list ppb " + createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang());
-
-//        return "daftar-permintaan-pengiriman";
+        model.addAttribute("activePage", "PermintaanPengiriman");
         return "success-tambah-permintaan-pengiriman";
     }
 
@@ -167,8 +183,6 @@ public class PermintaanPengirimanController {
         var alamat_penerima = permintaan.getAlamat_penerima();
         model.addAttribute("alamat_penerima", alamat_penerima);
 
-//        int id_layanan = permintaan.getJenis_layanan();
-//        var jenis_layanan = permintaanPengirimanService.listJenisLayanan().get(id_layanan);
         Map<Integer, String> listJenisLayanan = permintaanPengirimanService.listJenisLayanan();
         model.addAttribute("listJenisLayanan", listJenisLayanan);
 
@@ -178,34 +192,35 @@ public class PermintaanPengirimanController {
         List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang = permintaan.getListPermintaanPengirimanBarang();
         model.addAttribute("listPermintaanPengirimanBarang", listPermintaanPengirimanBarang);
 
-//        for (PermintaanPengirimanBarang p : listPermintaanPengirimanBarang ){
-//            System.out.println(p);
-//        }
-
         List<Barang> listBarang = barangService.getAllBarang();
         model.addAttribute("listBarang", listBarang);
 
+        model.addAttribute("is_canceled", permintaan.getIs_cancelled());
+
+        long selisihWaktu = permintaanPengirimanService.calculateTimeDifference(permintaan);
+        long jamDalamSehari = permintaanPengirimanService.getJamDalamSehari();
+        model.addAttribute("selisihWaktu", selisihWaktu);
+        model.addAttribute("jamDalamSehari", jamDalamSehari);
+
+        model.addAttribute("activePage", "PermintaanPengiriman");
         return "detail-permintaan-pengiriman";
     }
 
     @GetMapping("/permintaan-pengiriman/{idPermintaanPengiriman}/cancel")
     public String cancelPermintaanPengiriman(@PathVariable Long idPermintaanPengiriman, Model model) {
         var permintaan = permintaanPengirimanService.findById(idPermintaanPengiriman);
-//        model.addAttribute("permintaan", permintaan);
+        model.addAttribute("permintaan", permintaan);
 
-        long selisihWaktu = System.currentTimeMillis() - permintaan.getWaktu_permintaan().getTime();
-        long jamDalamSehari = 24 * 60 * 60 * 1000; // Satu hari dalam milidetik
+        long selisihWaktu = permintaanPengirimanService.calculateTimeDifference(permintaan);
+        long jamDalamSehari = permintaanPengirimanService.getJamDalamSehari();
 
         if (selisihWaktu <= jamDalamSehari){
             permintaanPengirimanService.cancelPermintaanPengiriman(permintaan);
-
-//            permintaan.setIs_cancelled(true);
-//            permintaanPengirimanService.savePermintaanPengiriman(permintaan);
-
-//            model.addAttribute("listPermintaanPengiriman", permintaanPengirimanService.findNonCancelledPermintaanPengiriman());
         }
 
-//        model.addAttribute("message", "Permintaan pengiriman tidak dapat dibatalkan.");
+        model.addAttribute("nomor_pengiriman", permintaan.getNomor_pengiriman());
+
+        model.addAttribute("activePage", "PermintaanPengiriman");
         return "cancel-permintaan";
     }
 }

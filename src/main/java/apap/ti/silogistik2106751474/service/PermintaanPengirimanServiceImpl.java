@@ -1,7 +1,6 @@
 package apap.ti.silogistik2106751474.service;
 
 import apap.ti.silogistik2106751474.model.*;
-import apap.ti.silogistik2106751474.repository.GudangDb;
 import apap.ti.silogistik2106751474.repository.PermintaanPengirimanDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,14 +71,20 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     }
 
     @Override
-    public List<PermintaanPengiriman> findNonCancelledPermintaanPengiriman() {
-        return permintaanPengirimanDb.findByIsCancelledFalse();
-    }
-
-    @Override
     public void cancelPermintaanPengiriman(PermintaanPengiriman permintaanPengiriman){
         permintaanPengiriman.setIs_cancelled(true);
         permintaanPengirimanDb.save(permintaanPengiriman);
+    }
+
+    @Override
+    public long calculateTimeDifference(PermintaanPengiriman permintaan) {
+        long selisihWaktu = System.currentTimeMillis() - permintaan.getWaktu_permintaan().getTime();
+        return selisihWaktu;
+    }
+
+    @Override
+    public long getJamDalamSehari() {
+        return 24 * 60 * 60 * 1000;
     }
 
 }

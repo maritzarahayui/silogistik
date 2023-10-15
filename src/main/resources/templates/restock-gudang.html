@@ -26,34 +26,39 @@
             margin-bottom: 40px;
         }
 
-        .custom-select {
+        .select-container {
+            display: flex;
+            align-items: center;
             position: relative;
-            display: inline-block;
             width: 100%;
         }
 
-        .custom-select select {
+        .select-container select {
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
             border: 1px solid #ccc;
             padding: 5px 30px 5px 10px;
             border-radius: 5px;
+            margin-right: 10px; /* Jarak antara select dan ikon */
         }
 
-        .dropdown-icon {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        pointer-events: none;
+        .select-container .dropdown-icon {
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            pointer-events: none;
         }
 
-        .dropdown-icon i {
-        font-size: 1rem;
-        color: #333;
+        .select-container .dropdown-icon i {
+            font-size: 1rem;
+            color: #333;
         }
 
+        table {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -67,41 +72,26 @@
                 <h2>Restock Gudang</h2>             
             </div>
             
-            <!-- <form th:action="@{'/gudang/' + ${idGudang} + '/restock-barang'}" th:object="${gudangDTO}" method="POST"> -->
             <form th:action="@{/gudang/{idGudang}/restock-barang(idGudang=${gudangDTO.id})}" th:object="${gudangDTO}" method="POST">
-
-                <!-- <input class="form-control" type="hidden" th:field="*{id}" /> -->
-                <!-- <input class="form-control" type="hidden" th:field="*{nama}" />
-                <input class="form-control" type="hidden" th:field="*{alamat_gudang}" /> -->
 
                 <div class="card-body" style="text-align: left;">
                     <div class="row">
-                        <div class="col-6 d-flex align-items-center">
+                        <div class="col-4 d-flex align-items-center">
                             <p>Nama Gudang</p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <p>: <span th:text="${gudangDTO.nama}"></span></p>
                         </div>
                     </div>
                 
                     <div class="row">
-                        <div class="col-6 d-flex align-items-center">
+                        <div class="col-4 d-flex align-items-center">
                             <p>Alamat Gudang</p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4" style="white-space: nowrap; text-overflow: ellipsis;">
                             <p>: <span th:text="${gudangDTO.alamat_gudang}"></span></p>
                         </div>
                     </div>
-
-                    <!-- <div class="row">
-                        <div class="col-6 d-flex align-items-center">
-                            <p>Alamat Gudang</p>
-                        </div>
-                        <div class="col-6">
-                            <p>: <span th:text="${gudangDTO.listGudangBarang}"></span></p>
-                        </div>
-                    </div> -->
-
 
                     <div class="d-flex justify-content-between add-button">
                         <span></span>
@@ -111,7 +101,7 @@
                         </button>
                     </div>
 
-                    <table id="dataTables" class="table table-bordered">
+                    <table class="table table-bordered">
                         <input class="form-control" type="hidden" th:field="*{id}" />
                         <input class="form-control" type="hidden" th:field="*{nama}" />
                         <input class="form-control" type="hidden" th:field="*{alamat_gudang}" />
@@ -129,47 +119,27 @@
                                 <td th:text="${iterationGudangBarang.index + 1}"></td>
 
                                 <td>
-                                    <div class="custom-select wide">
-                                        <select th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].barang}" class="form-control">
-                                            <option value="">Select a Product</option>
-                                            <option th:each="barang : ${listBarang}" th:value="${barang.sku}">
-                                                <span th:text="${barang.merk}"></span>
-                                            </option>
+                                    <div class="select-container">
+                                        <select th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].barang}" class="form-control" id="merk">
+                                            <option th:each="barang : ${listBarang}" th:value="${barang.sku}" th:text="${barang.merk}"></option>
                                         </select>
 
                                         <div class="dropdown-icon">
                                             <i class="bi bi-chevron-down"></i>
                                         </div>
                                     </div>
-                                </td>                                
-
+                                </td>
+                                
                                 <td>
                                     <input required class="form-control" type="number" th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].stok}" />
                                 </td>
                             </tr>
                         </tbody>
-
-                        <!-- <tbody>
-                            <tr th:each="gudangBarang, iterationGudangBarang: ${listGudangBarang}">
-                                <td th:text="${iterationGudangBarang.index +1}"></td>
-                                <td>
-                                    <select th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].barang}" class="form-control">
-                                        <div th:each="barang : ${listBarang}">
-                                        <option th:value="${barang.sku}" th:text="${barang.merk}"></option>
-                                        </div>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <input required class="form-control" type="number" th:field="*{listGudangBarang[__${iterationGudangBarang.index}__].stok}" />
-                                </td>
-                            </tr>
-                        </tbody> -->
                     </table>
                 </div>   
                 
                 <div class="text-center action-buttons">
-                    <a type="button" class="btn btn-danger m-2 mb-3" href="/">Batal</a>
+                    <a class="btn btn-danger m-2 mb-3" th:href="@{/gudang}">Batal</a>
                     <button type="submit" class="btn btn-primary m-2 mb-3">Simpan</button>
                 </div>
             </form>

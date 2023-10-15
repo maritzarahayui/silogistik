@@ -35,10 +35,10 @@
     <div class="text-center mt-3">
         <form th:action="@{/gudang/cari-barang}" method="get">
             <div class="input-group mb-3">
-                <select name="sku" id="merk" class="form-select">
+                <select name="sku" class="form-select" id="barangDropdown">
                     <option value="">Cari barang...</option>
                     <option th:each="barang : ${listBarang}" th:value="${barang.sku}" th:text="${barang.merk}"></option>
-                </select>
+                </select>                
         
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">Cari</button>
@@ -47,7 +47,7 @@
         </form>
     </div>
     
-    <table class="table table-bordered">
+    <table class="table table-bordered" th:if="${not #lists.isEmpty(listGudangBarang)}">
         <thead class="thead">
             <tr>
                 <th>#</th>

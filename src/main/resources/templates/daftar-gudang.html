@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    
     <title>Daftar Gudang</title>
 
     <style>
@@ -15,6 +16,10 @@
 
         td, .thead {
             text-align: center;
+        }
+
+        .container {
+            padding-bottom: 50px;
         }
     </style>
 </head>
@@ -40,7 +45,7 @@
             <tr th:each="gudang, nomor: ${listGudang}">
                 <td th:text="${nomor.index + 1}"></td>
                 
-                <td th:text="${gudang.nama}"></td>
+                <td th:text="'Gudang ' + ${gudang.nama}"></td>
 
                 <td th:text="${gudang.alamat_gudang}"></td>
 
@@ -52,5 +57,15 @@
     </table>
 </div>
 </body>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables').DataTable({
+            "paging": true,
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 20]
+        });
+    });
+</script>
 
 </html>

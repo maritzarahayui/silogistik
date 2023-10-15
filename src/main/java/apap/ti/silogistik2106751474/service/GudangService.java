@@ -10,7 +10,5 @@ public interface GudangService {
     void saveGudang(Gudang gudang);
     List<Gudang> getAllGudang();
     Gudang getGudangById(Long id);
-//    List<Gudang> searchGudangByBarang(String cariBarang);
     List<Gudang> findGudangByBarang(String barang);
-
 }

@@ -13,13 +13,17 @@
   <div class="container">
     <div class="card m-4 p-4">
       <div class="card-body">
+        <div class="images d-flex justify-content-center align-items-center">
+          <img src="/images/check.png">
+        </div>
+
         <div class="text-center">
           <h2 th:text="'Permintaan pengiriman dengan nomor ' + ${nomor_pengiriman} + ' berhasil ditambahkan.'"></h2>
         </div>
         
         <div class="text-center m-3">
-          <a type="button" class="btn btn-md btn-primary" href="/">Home</a>
-          <a type="button" class="btn btn-md btn-primary" href="/permintaan-pengiriman">Lihat Semua Permintaan Pengiriman</a>
+          <a type="button" class="btn btn-md btn-outline-primary mx-3" href="/">Kembali ke beranda</a>
+          <a type="button" class="btn btn-md btn-primary mx-3" href="/permintaan-pengiriman">Lihat daftar permintaan pengiriman</a>
         </div>
       </div>
     </div>

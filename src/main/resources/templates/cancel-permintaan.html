@@ -35,12 +35,13 @@
                 </div>
 
                 <div class="text-center">
-                    <h3 th:text="'Permintaan pengiriman dengan nomor pengiriman ' + ${nomor_pengiriman} + ' berhasil dihapus.'"></h3>
+                    <h3 th:text="'Permintaan pengiriman dengan nomor ' + ${nomor_pengiriman} + ' berhasil dibatalkan.'"></h3>
                 </div>
 
                 <div class="text-center m-3">
-                    <a type="button" class="btn btn-md btn-primary" href="/">Kembali ke beranda</a>
-                </div>
+                    <a type="button" class="btn btn-md btn-outline-primary mx-3" href="/">Kembali ke beranda</a>
+                    <a type="button" class="btn btn-md btn-primary mx-3" href="/permintaan-pengiriman">Lihat daftar permintaan pengiriman</a>
+                  </div>
             </div>
         </div>
     </div>
